@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Builder Arcade 🎮</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Titan+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-wrapper">
+        <!-- Animated background elements -->
+        <div class="bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen">
+            <div class="start-content">
+                <h1 class="game-title">
+                    <span class="title-word">Word</span>
+                    <span class="title-word">Builder</span>
+                    <span class="title-arcade">Arcade</span>
+                </h1>
+                <div class="start-mascot">🎯</div>
+                <div class="difficulty-selector">
+                    <h2>Choose Your Level</h2>
+                    <div class="difficulty-buttons">
+                        <button class="difficulty-btn" data-difficulty="beginner">
+                            <span class="diff-emoji">🐢</span>
+                            <span class="diff-name">Beginner</span>
+                            <span class="diff-desc">Slow & Easy</span>
+                        </button>
+                        <button class="difficulty-btn selected" data-difficulty="normal">
+                            <span class="diff-emoji">🐰</span>
+                            <span class="diff-name">Normal</span>
+                            <span class="diff-desc">Just Right</span>
+                        </button>
+                        <button class="difficulty-btn" data-difficulty="advanced">
+                            <span class="diff-emoji">🚀</span>
+                            <span class="diff-name">Advanced</span>
+                            <span class="diff-desc">Super Fast</span>
+                        </button>
+                    </div>
+                </div>
+                <button id="start-btn" class="big-btn pulse">
+                    <span>Start Game!</span>
+                    <span class="btn-icon">🎮</span>
+                </button>
+                <div class="high-score-display">
+                    <span class="trophy">🏆</span>
+                    <span>High Score: <strong id="start-high-score">0</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen hidden">
+            <!-- Top HUD -->
+            <div class="game-hud">
+                <div class="hud-item score-display">
+                    <span class="hud-icon">⭐</span>
+                    <div class="hud-content">
+                        <span class="hud-label">Score</span>
+                        <span class="hud-value" id="score">0</span>
+                    </div>
+                </div>
+                <div class="hud-item timer-display">
+                    <span class="hud-icon">⏱️</span>
+                    <div class="hud-content">
+                        <span class="hud-label">Time</span>
+                        <span class="hud-value" id="timer">2:30</span>
+                    </div>
+                </div>
+                <div class="hud-item combo-display">
+                    <span class="hud-icon">🔥</span>
+                    <div class="hud-content">
+                        <span class="hud-label">Combo</span>
+                        <span class="hud-value" id="combo">x1</span>
+                    </div>
+                </div>
+                <button id="pause-btn" class="control-btn">
+                    <span id="pause-icon">⏸️</span>
+                </button>
+                <button id="quit-btn" class="control-btn quit-btn" title="Quit Game">
+                    <span>🏠</span>
+                </button>
+            </div>
+
+            <!-- Game Area -->
+            <div id="game-area">
+                <div id="letters-container"></div>
+                
+                <!-- Pause Overlay -->
+                <div id="pause-overlay" class="overlay hidden">
+                    <div class="overlay-content">
+                        <h2>⏸️ Paused</h2>
+                        <button id="resume-btn" class="big-btn">Resume</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Word Builder -->
+            <div class="word-builder">
+                <div class="current-word-container">
+                    <div id="current-word" class="current-word">
+                        <span class="placeholder-text">Click letters to build a word!</span>
+                    </div>
+                    <button id="clear-btn" class="action-btn clear-btn" title="Clear word">
+                        <span>✖️</span>
+                    </button>
+                </div>
+                <div class="word-actions">
+                    <button id="submit-btn" class="big-btn submit-btn" disabled>
+                        <span>Submit Word</span>
+                        <span class="btn-icon">✓</span>
+                    </button>
+                </div>
+                <div id="feedback" class="feedback"></div>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameover-screen" class="screen hidden">
+            <div class="gameover-content">
+                <h1 class="gameover-title">Game Over!</h1>
+                <div class="final-stats">
+                    <div class="stat-card main-stat">
+                        <span class="stat-icon">⭐</span>
+                        <span class="stat-label">Final Score</span>
+                        <span class="stat-value" id="final-score">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-card">
+                            <span class="stat-icon">📝</span>
+                            <span class="stat-label">Words Found</span>
+                            <span class="stat-value" id="words-found">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-icon">🔥</span>
+                            <span class="stat-label">Best Combo</span>
+                            <span class="stat-value" id="best-combo">x1</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-icon">✨</span>
+                            <span class="stat-label">Longest Word</span>
+                            <span class="stat-value" id="longest-word">-</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="new-high-score" class="new-high-score hidden">
+                    <span class="trophy-bounce">🏆</span>
+                    <span>New High Score!</span>
+                </div>
+                <div class="gameover-actions">
+                    <button id="play-again-btn" class="big-btn pulse">
+                        <span>Play Again!</span>
+                        <span class="btn-icon">🔄</span>
+                    </button>
+                    <button id="home-btn" class="secondary-btn">
+                        <span>Home</span>
+                    </button>
+                </div>
+            </div>
+            <div class="confetti-container" id="confetti"></div>
+        </div>
+    </div>
+
+    <script src="dictionary.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
